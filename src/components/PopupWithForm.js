@@ -14,18 +14,18 @@ export default function PopupWithForm (props) {
         ></button>
         <h3 className='popup__title'>{props.title}</h3>
         <form
-          novalidate
+          noValidate
           action='#'
-          id={`${props.popupFormName}`}
+          id={props.popupFormName}
           className={`popup__form ${props.popupName}__form`}
           method='POST'
-          name={`${props.popupFormName}`}
+          name={props.popupFormName}
         >
           {props.children}
         </form>
         <button
           type='submit'
-          form={`${props.popupFormName}`}
+          form={props.popupFormName}
           className={`popup__btn-save ${props.popupName}__btn-save`}
           aria-label='Сохранить изменения'
         >

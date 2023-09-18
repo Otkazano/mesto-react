@@ -1,4 +1,4 @@
-export default function Card ({ item, popupDeleteOpen, onCardClick }) {
+export default function Card ({ item, onDeleteClick, onCardClick }) {
   function handleClick () {
     onCardClick(item)
   }
@@ -26,7 +26,7 @@ export default function Card ({ item, popupDeleteOpen, onCardClick }) {
         type='button'
         className='gallery__delete'
         aria-label='Удалить фотокарточку'
-        onClick={popupDeleteOpen}
+        onClick={onDeleteClick}
       />
     </div>
   )

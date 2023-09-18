@@ -61,8 +61,9 @@ export default function Main (props) {
         {cards.map(item => (
           <Card
             item={item}
-            popupDeleteOpen={props.onDelete}
+            onDeleteClick={props.onDelete}
             onCardClick={props.onCardClick}
+            key={item._id}
           />
         ))}{' '}
       </section>

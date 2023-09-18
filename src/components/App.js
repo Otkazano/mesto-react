@@ -42,7 +42,6 @@ export default function App () {
     setIsEditProfileOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsAgreePopupOpen(false)
-    setTimeout(() => setSelectedCard({}), 400)
   }
 
   return (
@@ -72,9 +71,9 @@ export default function App () {
           className='popup__input popup__input_el_name-profile'
           required
           placeholder='Имя'
-          autocomplete='off'
-          minlength='2'
-          maxlength='40'
+          autoComplete='off'
+          minLength='2'
+          maxLength='40'
         />
         <span className='popup__error-message' id='error-nameProfile'></span>
         <input
@@ -84,9 +83,9 @@ export default function App () {
           className='popup__input popup__input_el_about-profile'
           required
           placeholder='О себе'
-          autocomplete='off'
-          minlength='2'
-          maxlength='200'
+          autoComplete='off'
+          minLength='2'
+          maxLength='200'
         />
         <span className='popup__error-message' id='error-aboutProfile'></span>
       </PopupWithForm>
@@ -106,9 +105,9 @@ export default function App () {
           className='popup__input popup__input_el_name-newImage'
           required
           placeholder='Название'
-          autocomplete='off'
-          minlength='2'
-          maxlength='30'
+          autoComplete='off'
+          minLength='2'
+          maxLength='30'
         />
         <span className='popup__error-message' id='error-nameNewImage'></span>
         <input
@@ -118,7 +117,7 @@ export default function App () {
           className='popup__input popup__input_el_link-newImage'
           required
           placeholder='Ссылка на картинку'
-          autocomplete='off'
+          autoComplete='off'
         />
         <span className='popup__error-message' id='error-linkNewImage'></span>
       </PopupWithForm>
@@ -138,7 +137,7 @@ export default function App () {
           className='popup__input popup__input_el_link-newAvatar'
           required
           placeholder='Ссылка на картинку'
-          autocomplete='off'
+          autoComplete='off'
         />
         <span className='popup__error-message' id='error-linkNewAvatar'></span>
       </PopupWithForm>
@@ -150,7 +149,7 @@ export default function App () {
         btnText='Да'
         isOpen={isAgreePopupOpen}
         onClose={closeAllPopup}
-      ></PopupWithForm>
+      />
 
       <ImagePopup
         onClose={closeAllPopup}

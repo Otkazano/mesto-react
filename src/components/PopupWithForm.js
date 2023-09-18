@@ -1,35 +1,35 @@
-export default function PopupWithForm (props) {
+export default function PopupWithForm ({popupName, isOpen, onClose, title, popupFormName, children, btnText}) {
   return (
     <div
-      className={`popup ${props.popupName} ${
-        props.isOpen ? 'popup_opened' : ''
+      className={`popup ${popupName} ${
+        isOpen ? 'popup_opened' : ''
       }`}
     >
       <div className='popup__container'>
         <button
           type='button'
-          className={`popup__btn-close ${props.popupName}__btn-close`}
+          className={`popup__btn-close ${popupName}__btn-close`}
           aria-label='Закрыть окно'
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
-        <h3 className='popup__title'>{props.title}</h3>
+        <h3 className='popup__title'>{title}</h3>
         <form
           noValidate
           action='#'
-          id={props.popupFormName}
-          className={`popup__form ${props.popupName}__form`}
+          id={popupFormName}
+          className={`popup__form ${popupName}__form`}
           method='POST'
-          name={props.popupFormName}
+          name={popupFormName}
         >
-          {props.children}
+          {children}
         </form>
         <button
           type='submit'
-          form={props.popupFormName}
-          className={`popup__btn-save ${props.popupName}__btn-save`}
+          form={popupFormName}
+          className={`popup__btn-save ${popupName}__btn-save`}
           aria-label='Сохранить изменения'
         >
-          {props.btnText}
+          {btnText}
         </button>
       </div>
     </div>

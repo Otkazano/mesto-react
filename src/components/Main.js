@@ -2,7 +2,7 @@ import React from 'react'
 import api from '../utils/Api.js'
 import Card from './Card.js'
 
-export default function Main (props) {
+export default function Main ({onEditAvatar, onEditProfile, onAddPlace, onDelete, onCardClick}) {
   const [userName, setUserName] = React.useState('')
   const [userDescription, setUserDescription] = React.useState('')
   const [userAvatar, setUserAvatar] = React.useState('')
@@ -29,7 +29,7 @@ export default function Main (props) {
             type='button'
             className='profile__avatar-btn'
             aria-label='Изменить аватар пользователя'
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           ></button>
           <img
             className='profile__avatar-img'
@@ -44,7 +44,7 @@ export default function Main (props) {
               type='button'
               className='profile__btn-edit'
               aria-label='Изменить данные профиля'
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             ></button>
           </div>
           <p className='profile__about'>{userDescription}</p>
@@ -53,7 +53,7 @@ export default function Main (props) {
           type='button'
           className='profile__btn-add'
           aria-label='Добавить фотокарточку в ленту'
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         ></button>
       </section>
 
@@ -61,8 +61,8 @@ export default function Main (props) {
         {cards.map(item => (
           <Card
             item={item}
-            onDeleteClick={props.onDelete}
-            onCardClick={props.onCardClick}
+            onDeleteClick={onDelete}
+            onCardClick={onCardClick}
             key={item._id}
           />
         ))}{' '}

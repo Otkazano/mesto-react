@@ -1,4 +1,4 @@
-export default function PopupWithForm ({popupName, isOpen, onClose, title, popupFormName, children, btnText}) {
+export default function PopupWithForm ({popupName, isOpen, onClose, title, popupFormName, children, btnText, onSubmit}) {
   return (
     <div
       className={`popup ${popupName} ${
@@ -20,6 +20,7 @@ export default function PopupWithForm ({popupName, isOpen, onClose, title, popup
           className={`popup__form ${popupName}__form`}
           method='POST'
           name={popupFormName}
+          onSubmit={onSubmit}
         >
           {children}
         </form>

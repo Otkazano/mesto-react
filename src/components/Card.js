@@ -1,7 +1,30 @@
-export default function Card ({ item, onDeleteClick, onCardClick }) {
+import React from 'react'
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
+
+export default function Card ({
+  item,
+  onDeleteClick,
+  onCardClick,
+  onCardLikeClick
+}) {
   function handleClick () {
     onCardClick(item)
   }
+
+  function handleLikeClick () {
+    onCardLikeClick(item)
+  }
+
+  function handleDeleteClick () {
+    onDeleteClick(item)
+  }
+
+  const currentUser = React.useContext(CurrentUserContext)
+  const isOwn = item.owner._id === currentUser._id
+  const isLiked = item.likes.some(i => i._id === currentUser._id)
+  const cardLikeButtonClassName = `gallery__likes-icon gallery__btn-like ${
+    isLiked && 'gallery__likes-icon_active'
+  }`
 
   return (
     <div className='gallery__item'>
@@ -16,18 +39,22 @@ export default function Card ({ item, onDeleteClick, onCardClick }) {
         <div className='gallery__likes'>
           <button
             type='button'
-            className='gallery__likes-icon gallery__btn-like'
+            className={cardLikeButtonClassName}
             aria-label='Отметить фотокарточку лайком'
+            onClick={handleLikeClick}
           />
           <p className='gallery__likes-quantity'>{item.likes.length}</p>
         </div>
       </div>
-      <button
-        type='button'
-        className='gallery__delete'
-        aria-label='Удалить фотокарточку'
-        onClick={onDeleteClick}
-      />
+
+      {isOwn && (
+        <button
+          type='button'
+          className='gallery__delete'
+          aria-label='Удалить фотокарточку'
+          onClick={handleDeleteClick}
+        />
+      )}
     </div>
   )
 }

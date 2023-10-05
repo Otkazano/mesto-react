@@ -1,25 +1,18 @@
 import React from 'react'
 import api from '../utils/Api.js'
 import Card from './Card.js'
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 
-export default function Main ({onEditAvatar, onEditProfile, onAddPlace, onDelete, onCardClick}) {
-  const [userName, setUserName] = React.useState('')
-  const [userDescription, setUserDescription] = React.useState('')
-  const [userAvatar, setUserAvatar] = React.useState('')
-  const [cards, setCards] = React.useState([])
-
-  React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getAllCards()])
-      .then(([person, cards]) => {
-        setUserName(person.name)
-        setUserDescription(person.about)
-        setUserAvatar(person.avatar)
-        setCards(cards)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
+export default function Main ({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onDelete,
+  onCardClick,
+  onCardLikeClick,
+  cards
+}) {
+  const currentUser = React.useContext(CurrentUserContext)
 
   return (
     <main className='content'>
@@ -33,13 +26,13 @@ export default function Main ({onEditAvatar, onEditProfile, onAddPlace, onDelete
           ></button>
           <img
             className='profile__avatar-img'
-            src={userAvatar}
+            src={currentUser.avatar}
             alt='Аватар пользователя'
           />
         </div>
         <div className='profile__info'>
           <div className='profile__person'>
-            <h1 className='profile__name'>{userName}</h1>
+            <h1 className='profile__name'>{currentUser.name}</h1>
             <button
               type='button'
               className='profile__btn-edit'
@@ -47,7 +40,7 @@ export default function Main ({onEditAvatar, onEditProfile, onAddPlace, onDelete
               onClick={onEditProfile}
             ></button>
           </div>
-          <p className='profile__about'>{userDescription}</p>
+          <p className='profile__about'>{currentUser.about}</p>
         </div>
         <button
           type='button'
@@ -63,6 +56,7 @@ export default function Main ({onEditAvatar, onEditProfile, onAddPlace, onDelete
             item={item}
             onDeleteClick={onDelete}
             onCardClick={onCardClick}
+            onCardLikeClick={onCardLikeClick}
             key={item._id}
           />
         ))}{' '}

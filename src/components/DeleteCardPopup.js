@@ -1,7 +1,12 @@
 import React from 'react'
 import PopupWithForm from './PopupWithForm'
 
-export default function DeleteCardPopup ({ isOpen, onClose, onDelete }) {
+export default function DeleteCardPopup ({
+  isOpen,
+  onClose,
+  onDelete,
+  isLoading
+}) {
   function handleSubmit (e) {
     e.preventDefault()
     onDelete()
@@ -12,7 +17,7 @@ export default function DeleteCardPopup ({ isOpen, onClose, onDelete }) {
       popupName='popup-agreeDelete'
       title='Вы уверены?'
       popupFormName='agreeDelete-form'
-      btnText='Да'
+      btnText={isLoading ? 'Удаление...' : 'Да'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

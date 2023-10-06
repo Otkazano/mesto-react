@@ -1,4 +1,8 @@
+import React from 'react'
+import usePopupClose from '../hooks/usePopupClose'
+
 export default function ImagePopup ({ isOpen, onClose, card }) {
+  usePopupClose(isOpen, onClose)
   return (
     <div
       className={`popup popup-image popup_theme_dark ${

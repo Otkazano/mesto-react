@@ -14,13 +14,13 @@ import DeleteCardPopup from './DeleteCardPopup'
 export default function App () {
   const [isEditProfileOpen, setIsEditProfileOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false)
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
   const [isAgreePopupOpen, setIsAgreePopupOpen] = React.useState(false)
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false)
+  const [cards, setCards] = React.useState([])
   const [selectedCard, setSelectedCard] = React.useState({})
   const [currentUser, setCurrentUser] = React.useState({})
-  const [cards, setCards] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
     Promise.all([api.getUserData(), api.getAllCards()])
@@ -36,17 +36,28 @@ export default function App () {
   function handleCardLike (card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id)
     if (isLiked) {
-      api.dislikeCard(card._id).then(newCard => {
-        setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
-      })
+      api
+        .dislikeCard(card._id)
+        .then(newCard => {
+          setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
+        })
+        .catch(err => {
+          console.log(err)
+        })
     } else {
-      api.likeCard(card._id).then(newCard => {
-        setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
-      })
+      api
+        .likeCard(card._id)
+        .then(newCard => {
+          setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 
   function handleAgreeCardDelete () {
+    setIsLoading(true)
     const id = selectedCard._id
     api
       .deleteCard(id)
@@ -58,7 +69,55 @@ export default function App () {
         console.log(err)
       })
       .finally(() => {
-        setSelectedCard({})
+        setIsLoading(false)
+      })
+  }
+
+  function handleAddPlaceSubmit ({ name, link }) {
+    setIsLoading(true)
+    api
+      .createCard({ nameNewImage: name, linkNewImage: link })
+      .then(newCard => {
+        setCards([newCard, ...cards])
+        closeAllPopup()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
+  function handleUpdateUser ({ name, about }) {
+    setIsLoading(true)
+    api
+      .saveUserChanges({ nameProfile: name, aboutProfile: about })
+      .then(res => {
+        setCurrentUser(res)
+        closeAllPopup()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
+  function handleUpdateAvatar ({ avatar }) {
+    setIsLoading(true)
+    api
+      .changeUserAvatar(avatar)
+      .then(res => {
+        setCurrentUser(res)
+        closeAllPopup()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -90,49 +149,7 @@ export default function App () {
     setIsEditProfileOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsAgreePopupOpen(false)
-  }
-
-  function handleAddPlaceSubmit ({ name, link }) {
-    api
-      .createCard({ nameNewImage: name, linkNewImage: link })
-      .then(newCard => {
-        setCards([newCard, ...cards])
-        closeAllPopup()
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
-  function handleUpdateUser ({ name, about }) {
-    const avatar = currentUser.avatar
-    const id = currentUser._id
-    const cohort = currentUser.cohort
-    api
-      .saveUserChanges({ nameProfile: name, aboutProfile: about })
-      .then(() => {
-        setCurrentUser({ name, about, avatar, _id: id, cohort })
-        closeAllPopup()
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
-  function handleUpdateAvatar ({ avatar }) {
-    const name = currentUser.name
-    const about = currentUser.about
-    const id = currentUser._id
-    const cohort = currentUser.cohort
-    api
-      .changeUserAvatar(avatar)
-      .then(() => {
-        setCurrentUser({ name, about, avatar, _id: id, cohort })
-        closeAllPopup()
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    setTimeout(() => setSelectedCard({}), 400)
   }
 
   return (
@@ -154,24 +171,28 @@ export default function App () {
           isOpen={isEditProfileOpen}
           onClose={closeAllPopup}
           onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopup}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopup}
           onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
         />
 
         <DeleteCardPopup
           isOpen={isAgreePopupOpen}
           onClose={closeAllPopup}
           onDelete={handleAgreeCardDelete}
+          isLoading={isLoading}
         />
 
         <ImagePopup

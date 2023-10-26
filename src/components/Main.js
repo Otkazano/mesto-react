@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
+import avatarImg from '../images/Avatar.jpg'
 
 export default function Main ({
   onEditAvatar,
@@ -25,13 +26,13 @@ export default function Main ({
           ></button>
           <img
             className='profile__avatar-img'
-            src={currentUser.avatar}
+            src={currentUser.avatar ? currentUser.avatar : avatarImg}
             alt='Аватар пользователя'
           />
         </div>
         <div className='profile__info'>
           <div className='profile__person'>
-            <h1 className='profile__name'>{currentUser.name}</h1>
+            <h1 className='profile__name'>{currentUser.name ? currentUser.name : 'Райан Гослинг'}</h1>
             <button
               type='button'
               className='profile__btn-edit'
@@ -39,7 +40,7 @@ export default function Main ({
               onClick={onEditProfile}
             ></button>
           </div>
-          <p className='profile__about'>{currentUser.about}</p>
+          <p className='profile__about'>{currentUser.about ? currentUser.about : 'Выгуливаю собак'}</p>
         </div>
         <button
           type='button'

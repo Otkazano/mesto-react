@@ -19,7 +19,7 @@
 ### Установка и запуск проекта: 
 Клонировать репозиторий:
 ```bash
-git clone https://github.com/Otkazano/mesto.git
+git clone https://github.com/Otkazano/mesto-react.git
 ```
 Установаить зависимости:
 ```bash
